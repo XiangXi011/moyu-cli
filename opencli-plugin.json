@@ -1,0 +1,6 @@
+{
+  "name": "moyu",
+  "version": "1.0.0",
+  "opencli": ">=1.0.0",
+  "description": "魔芋AI 控制台 CLI — Token 管理、消费日志、余额查询、兑换码等"
+}

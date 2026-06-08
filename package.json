@@ -1,0 +1,7 @@
+{
+  "name": "opencli-plugin-moyu",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "魔芋AI 控制台 CLI 插件",
+  "license": "MIT"
+}
