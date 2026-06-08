@@ -17,10 +17,14 @@ cli({
   var res = await fetch('/api/user/checkin', { method: 'POST', credentials: 'include', headers: headers });
   var data = await res.json();
   if (!data.success) {
-    if (data.message && data.message.includes('already')) {
-      return [{ status: 'Already', message: 'Already checked in today', quota_awarded: '-', total_checkins: '-', total_received: '-' }];
+    var msg = data.message || '';
+    if (msg.includes('already') || msg.includes('已签到') || msg.includes('今日')) {
+      var statsRes = await fetch('/api/user/checkin', { credentials: 'include', headers: { 'Accept': 'application/json', 'Moyu-Ai-User': String(uid) } });
+      var statsData = await statsRes.json();
+      var st = statsData.data?.stats || {};
+      return [{ status: 'Already', message: 'Already checked in today', quota_awarded: '-', total_checkins: String(st.total_checkins || '-'), total_received: '¥' + ((st.total_quota || 0) / 1000000).toFixed(4) }];
     }
-    throw new Error(data.message || 'Check-in failed');
+    throw new Error(msg || 'Check-in failed');
   }
   var d = data.data || {};
   var stats = d.stats || {};
